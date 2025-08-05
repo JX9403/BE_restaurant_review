@@ -18,8 +18,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth ->
                         auth
-                        .requestMatchers(HttpMethod.GET, "/api/photos/**").permitAll()
-                        .anyRequest().authenticated()
+                                .requestMatchers(HttpMethod.GET, "/api/photos/**").permitAll()
+                                .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 ->
                         oauth2.jwt(jwt ->
@@ -29,7 +29,7 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .csrf(csrf -> csrf.disable());
-         
+
         return http.build();
     }
 

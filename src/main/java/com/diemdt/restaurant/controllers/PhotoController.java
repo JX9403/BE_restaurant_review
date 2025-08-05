@@ -39,4 +39,5 @@ public class PhotoController {
                         .body(photo)
         ).orElse(ResponseEntity.notFound().build());
     }
+
 }
