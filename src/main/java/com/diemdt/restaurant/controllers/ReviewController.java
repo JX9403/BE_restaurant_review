@@ -66,6 +66,8 @@ public class ReviewController {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.noContent().build());
     }
+
+
     @PutMapping(path = "/{reviewId}")
     public ResponseEntity<ReviewDto> updateReview(
             @PathVariable String restaurantId,
@@ -91,6 +93,7 @@ public class ReviewController {
         reviewService.deleteReview(restaurantId, reviewId);
         return ResponseEntity.noContent().build();
     }
+
     private User jwtToUser(Jwt jwt) {
         return User.builder()
                 .id(jwt.getSubject())

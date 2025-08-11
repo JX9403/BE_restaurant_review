@@ -5,6 +5,8 @@ import com.diemdt.restaurant.domain.entities.Photo;
 import com.diemdt.restaurant.domain.entities.Restaurant;
 import com.diemdt.restaurant.domain.entities.Review;
 import com.diemdt.restaurant.domain.entities.User;
+import com.diemdt.restaurant.exceptions.UnauthorizedException;
+import com.diemdt.restaurant.exceptions.ResourceNotFoundException;
 import com.diemdt.restaurant.exceptions.RestaurantNotFoundException;
 import com.diemdt.restaurant.exceptions.ReviewNotAllowedException;
 import com.diemdt.restaurant.repositories.RestaurantRepository;
@@ -14,6 +16,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -121,17 +126,18 @@ public class ReviewServiceImpl implements ReviewService {
         Restaurant restaurant = getRestaurantOrThrow(restaurantId);
 
         String authorId = author.getId();
+//      tìm review muoons sửa
         Review existingReview = getReviewFromRestaurant(reviewId, restaurant)
                 .orElseThrow(() -> new ReviewNotAllowedException("Review does not exist"));
-
+//Kiểm tra người sửa có phải người đăng không
         if(!authorId.equals(existingReview.getWrittenBy().getId())) {
             throw new ReviewNotAllowedException("Cannot update another user's review");
         }
-
+//Hết hạn cập nhật
         if(LocalDateTime.now().isAfter(existingReview.getDatePosted().plusHours(48))) {
-            throw new ReviewNotAllowedException("Review can no longer bew edited");
+            throw new ReviewNotAllowedException("Review can no longer be edited");
         }
-
+//Cập nhật
         existingReview.setContent(review.getContent());
         existingReview.setRating(review.getRating());
         existingReview.setLastEdited(LocalDateTime.now());

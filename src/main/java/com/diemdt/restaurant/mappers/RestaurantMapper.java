@@ -26,8 +26,8 @@ public interface RestaurantMapper {
     RestaurantSummaryDto toSummaryDto(Restaurant restaurant);
 
     @Named("populateTotalReviews")
-    default  Integer populateTotalReviews(List<Review> reviews) {
-        return reviews.size();
+    default Integer populateTotalReviews(List<Review> reviews) {
+        return reviews != null ? reviews.size() : 0;
     }
 
     @Mapping(target = "latitude", expression = "java(geoPoint.getLat())")

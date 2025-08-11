@@ -10,10 +10,11 @@ import java.util.Random;
 @Service
 public class RandomLondonGeoLocationService implements GeoLocationService {
 
-    private static final float MIN_LATITUDE = 51.28f;
-    private static final float MAX_LATITUDE = 51.686f;
-    private static final float MIN_LONGITUDE = -0.489f;
-    private static final float MAX_LONGITUDE = 0.236f;
+    private static final float MIN_LATITUDE = 20.95f;
+    private static final float MAX_LATITUDE = 21.07f;
+    private static final float MIN_LONGITUDE = 105.75f;
+    private static final float MAX_LONGITUDE = 105.88f;
+
 
     @Override
     public GeoLocation geoLocate(Address address) {
